@@ -11,7 +11,7 @@ double m_e = 9.10938356e-31;    //e mass Kg;
 double e_const = 1.602e-19;
 
 double K_E(double, double, double, double);
-
+aljshalshdljhsdl
 int main(void)
 {
     for (E = 0; abs(E) < v0; E -= dE)
