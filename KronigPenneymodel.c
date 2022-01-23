@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include <math.h>
+#include <unistd.h>
 #include <stdlib.h>
+#include <math.h>
 
 /*
 double a = 5e-10;               // Lattice Const.
@@ -11,27 +12,28 @@ double dE = 0.001;              // Energy step eV
 double h_bar = 6.582119569e-16; //eV.s
 double m_e = 9.10938356e-31;    //e mass Kg;
 double e_const = 1.602e-19;
-*/
+*/ 
 double a = 10;
 double b = 8;
-double v0 = 3;
+double v0 = 1.5;
 double E;
-double dE = 0.000001;
+double dE = 0.0001;
 double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
 
 double cos_K_E(double, double, double, double);
 
-int main(void)
+int main(int argc, char *argv[])
 {
     FILE *bandstrc;
     bandstrc = fopen("bandstrc.dat","w");
-    for (E = -0.5; abs(E) < v0; E -= dE)
+    int bandNumber = 1;
+    for (E = 0; abs(E) <= v0; E += dE)
     {
         if (fabs(cos_K_E(a, b, v0, E)) <= 1)
         {
-            fprintf(bandstrc, "%f\t%f\n" , E, acos(cos_K_E(a, b, v0, E))/M_PI);
+            fprintf(bandstrc, "%f\t%f\t%d\n" , E, acos(cos_K_E(a, b, v0, E))/M_PI,bandNumber);
         }
     }
     fclose(bandstrc);
