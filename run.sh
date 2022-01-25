@@ -7,3 +7,4 @@ echo "Compiled";
 echo "run";
 # python3 plot.py;
 echo "plot":
+test
