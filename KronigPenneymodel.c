@@ -20,7 +20,6 @@ double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
 int bandNumber = 4;
-int bandNumber2 = 4;
 
 double cos_K_E(double, double, double, double);
 
@@ -29,11 +28,9 @@ int main(int argc, char *argv[])
     int band_i = 0;
     double ETest = 0;
     double maxEs[bandNumber];
-    double minEs[bandNumber2];
+    double minEs[bandNumber];
     FILE *bandstrc;
-    //FILE *outscf;
     bandstrc = fopen("bandstrc.dat", "w");
-    //outscf = fopen("scf.dat","w");
     for (double E = 0; abs(E) <= v0; E += dE)
     {
 
@@ -57,11 +54,18 @@ int main(int argc, char *argv[])
                 minEs[band_i] = E;
             }
 
-            fprintf(bandstrc, "%f\t%f\t%d\tMax:%f\tMin:%f\n", E, acos(cos_K_E(a, b, v0, E)) / M_PI, band_i,maxEs[band_i],minEs[band_i]);
-    
+            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E)) / M_PI, band_i);
         }
     }
     fclose(bandstrc);
+    FILE *outscf;
+    outscf = fopen("scf.dat", "w");
+    
+    fprintf(outscf, "Band #\tE_max\tE_min\n");
+    for (int i = 1; i <= band_i; i += 1)
+    {
+        fprintf(outscf, "%d\t%f\t%f\n", i, maxEs[i], minEs[i]);
+    }
     return 0;
 }
 
