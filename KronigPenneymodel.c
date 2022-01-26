@@ -31,12 +31,13 @@ int main(int argc, char *argv[])
     double minEs[bandNumber];
     FILE *bandstrc;
     bandstrc = fopen("bandstrc.dat", "w");
+    fprintf(bandstrc,"E\tk\tBand#\n");
     for (double E = 0; abs(E) <= v0; E += dE)
     {
 
         if (fabs(cos_K_E(a, b, v0, E)) <= 1)
         {
-            if (fabs(E - ETest) > 1 * dE)
+            if (fabs(E - ETest) > 2 * dE)
             {
                 band_i += 1;
                 minEs[band_i] = E;
@@ -54,13 +55,13 @@ int main(int argc, char *argv[])
                 minEs[band_i] = E;
             }
 
-            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E)) / M_PI, band_i);
+            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E)) / a / M_PI, band_i);
         }
     }
     fclose(bandstrc);
     FILE *outscf;
     outscf = fopen("scf.dat", "w");
-    
+
     fprintf(outscf, "Band #\tE_max\tE_min\n");
     for (int i = 1; i <= band_i; i += 1)
     {
