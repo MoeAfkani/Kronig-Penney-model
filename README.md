@@ -1,5 +1,5 @@
-<p align="center">
 # [Kronig-Penney-model](https://en.wikipedia.org/wiki/Particle_in_a_one-dimensional_lattice)
+<p align="center">
 
 ![Kronig-Penney](https://upload.wikimedia.org/wikipedia/commons/0/04/Periodic_square_potential_130707.png)
   
