@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     FILE *bandstrc;
     bandstrc = fopen("bandstrc.dat", "w");
     fprintf(bandstrc,"E\tk\tBand#\n");
-    for (double E = v0; E >= 0; E -= dE)
+    for (double E = 0; E <= v0; E += dE)
     {
 
         if (fabs(cos_K_E(a, b, v0, E)) <= 1)
