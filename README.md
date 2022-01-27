@@ -7,7 +7,7 @@
 ![alpha](https://wikimedia.org/api/rest_v1/media/math/render/svg/80742d4082b52209cfc467bfda150407beb5fe92)
 ![beta](https://wikimedia.org/api/rest_v1/media/math/render/svg/83fb30a26004d8ca0c3fc1a896bacc87203ad4cb)
 
-```python:KronigPennymodel.c
+```c:KronigPenneymodel.c
  
 ```
 ![band strucure](band.png)
