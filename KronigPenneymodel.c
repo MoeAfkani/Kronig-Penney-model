@@ -15,7 +15,7 @@ double e_const = 1.602e-19;
 double a = 8.90;
 double b = 8.0;
 double v0 = 1.5;
-double dE = 0.005   ;
+double dE = 0.005;
 double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     double minEs[bandNumber];
     FILE *bandstrc;
     bandstrc = fopen("bandstrc.dat", "w");
-    fprintf(bandstrc,"E\tk\tBand#\n");
+    fprintf(bandstrc, "E\tk\tBand#\n");
     for (double E = 0; E <= v0; E += dE)
     {
 
@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
                 minEs[band_i] = E;
             }
 
-            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E))  / M_PI, band_i);
-            fprintf(bandstrc, "%f\t%f\t%d\n", E, -acos(cos_K_E(a, b, v0, E))  / M_PI, band_i);
+            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E)) / M_PI, band_i);
+            fprintf(bandstrc, "%f\t%f\t%d\n", E, -acos(cos_K_E(a, b, v0, E)) / M_PI, band_i);
         }
     }
     fclose(bandstrc);
