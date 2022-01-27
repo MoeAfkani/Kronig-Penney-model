@@ -9,3 +9,4 @@
 
 [include](File:bandsrct.dat)
 
+@@include[my-file.md](bandstrc.md)
