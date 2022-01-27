@@ -12,10 +12,10 @@ double h_bar = 6.582119569e-16; //eV.s
 double m_e = 9.10938356e-31;    //e mass Kg;
 double e_const = 1.602e-19;
 */
-double a = 10;
-double b = 8;
+double a = 8.90;
+double b = 8.0;
 double v0 = 1.5;
-double dE = 0.0001;
+double dE = 0.005;
 double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     FILE *bandstrc;
     bandstrc = fopen("bandstrc.dat", "w");
     fprintf(bandstrc,"E\tk\tBand#\n");
-    for (double E = 0; abs(E) <= v0; E += dE)
+    for (double E = v0; E >= 0; E -= dE)
     {
 
         if (fabs(cos_K_E(a, b, v0, E)) <= 1)
@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
                 minEs[band_i] = E;
             }
 
-            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E)) / a / M_PI, band_i);
+            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E))  / M_PI, band_i);
+            fprintf(bandstrc, "%f\t%f\t%d\n", E, -acos(cos_K_E(a, b, v0, E))  / M_PI, band_i);
         }
     }
     fclose(bandstrc);
