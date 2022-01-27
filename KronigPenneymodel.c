@@ -21,25 +21,46 @@ double m_e = 1;
 double e_const = 1;
 int bandNumber = 4;
 
-double cos_K_E(double, double, double, double);
+double cos_K_E(double a, double b, double v0, double E)
+{
+    double alpha = sqrt(2 * m_e * fabs(E)) / h_bar;
+    double beta = sqrt(2 * m_e * (v0 - fabs(E))) / h_bar;
+    double d = b - a;
+    double cos_ka = cos(beta * b) * cosh(alpha * d) - (beta * beta - alpha * alpha) / (2 * alpha * beta) * sin(beta * b) * sinh(alpha * d);
+    // printf("%f\n",cos_ka);
+    return cos_ka;
+}
+void printMatrix(int m, int n, double matrix[m][n])
+{
+    int i, j;
+    for (i = 0; i < m; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            printf("%lf\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 int main(int argc, char *argv[])
 {
+    int k_grid = v0 / dE;
+    int k_points[bandNumber];
+    double E_k[bandNumber][k_grid][2];
     int band_i = 0;
     double ETest = 0;
     double maxEs[bandNumber];
     double minEs[bandNumber];
-    FILE *bandstrc;
-    bandstrc = fopen("bandstrc.dat", "w");
-    fprintf(bandstrc, "E\tk\tBand#\n");
+
     for (double E = 0; E <= v0; E += dE)
     {
 
         if (fabs(cos_K_E(a, b, v0, E)) <= 1)
         {
             if (fabs(E - ETest) > 2 * dE)
-            {
-                band_i += 1;
+            {   
+                band_i++;
                 minEs[band_i] = E;
                 maxEs[band_i] = E;
             }
@@ -54,29 +75,33 @@ int main(int argc, char *argv[])
             {
                 minEs[band_i] = E;
             }
+            E_k[band_i][k_points[band_i]][0] = E;
+            E_k[band_i][k_points[band_i]][1] = acos(cos_K_E(a, b, v0, E)) / M_PI;
+            k_points[band_i]++;
+        }
+    }
 
-            fprintf(bandstrc, "%f\t%f\t%d\n", E, acos(cos_K_E(a, b, v0, E)) / M_PI, band_i);
-            fprintf(bandstrc, "%f\t%f\t%d\n", E, -acos(cos_K_E(a, b, v0, E)) / M_PI, band_i);
+    // print to file bandstrc.dat
+    FILE *bandstrc;
+    bandstrc = fopen("bandstrc.dat", "w");
+    fprintf(bandstrc, "E\tk\tBand#\n");
+    for (int i = 1; i <= band_i; i++)
+    {
+        for (int k = 0; k < k_points[i]; k += 1)
+        {
+            fprintf(bandstrc, "%f\t%f\t%d\n", E_k[i][k][0], E_k[i][k][1], i);
         }
     }
     fclose(bandstrc);
-    FILE *outscf;
-    outscf = fopen("scf.dat", "w");
+    // print to file bandstrc.dat
 
-    fprintf(outscf, "Band #\tE_max\tE_min\n");
-    for (int i = 1; i <= band_i; i += 1)
+    FILE *gap;
+    gap = fopen("gap.dat", "w");
+    fprintf(gap, "Band #\tE_max\tE_min\n");
+    for (int i = 1; i <= band_i; i++)
     {
-        fprintf(outscf, "%d\t%f\t%f\n", i, maxEs[i], minEs[i]);
+        fprintf(gap, "%d\t%f\t%f\n", i, maxEs[i], minEs[i]);
     }
+    
     return 0;
-}
-
-double cos_K_E(double a, double b, double v0, double E)
-{
-    double alpha = sqrt(2 * m_e * fabs(E)) / h_bar;
-    double beta = sqrt(2 * m_e * (v0 - fabs(E))) / h_bar;
-    double d = b - a;
-    double cos_ka = cos(beta * b) * cosh(alpha * d) - (beta * beta - alpha * alpha) / (2 * alpha * beta) * sin(beta * b) * sinh(alpha * d);
-    // printf("%f\n",cos_ka);
-    return cos_ka;
 }

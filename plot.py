@@ -9,6 +9,8 @@ for row in band:
     try:
         E.append(float(row[0]))
         K.append(float(row[1]))
+        E.append(float(row[0]))
+        K.append(-float(row[1]))
     except ValueError: continue
   
 plt.scatter(K, E, color = 'r', s=0.8, label = 'a,b = 8.9, 8')
