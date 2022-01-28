@@ -20,6 +20,7 @@ double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
 int bandNumber = 5;
+int poly_degree= 6;
 
 double cos_K_E(double a, double b, double v0, double E)
 {
@@ -87,12 +88,9 @@ void printMatrix(int m, int n, double matrix[m][n])
 void fit(int k_point, double x[k_point], double y[k_point], FILE *file)
 {
     int i, j;
-
-    // the degree of polynomial to be used:
-    int n = 10;
     // an array of size 2*n+1 for storing N, Sig xi, Sig xi^2, ...., etc. which are the independent components of the normal matrix
-    double X[2 * n + 1];
-    for (i = 0; i <= 2 * n; i++)
+    double X[2 * poly_degree + 1];
+    for (i = 0; i <= 2 * poly_degree; i++)
     {
         X[i] = 0;
         for (j = 0; j < k_point; j++)
@@ -101,10 +99,10 @@ void fit(int k_point, double x[k_point], double y[k_point], FILE *file)
         }
     }
     // the normal augmented matrix
-    double B[n + 1][n + 2];
+    double B[poly_degree + 1][poly_degree + 2];
     // rhs
-    double Y[n + 1];
-    for (i = 0; i <= n; i++)
+    double Y[poly_degree + 1];
+    for (i = 0; i <= poly_degree; i++)
     {
         Y[i] = 0;
         for (j = 0; j < k_point; j++)
@@ -112,27 +110,27 @@ void fit(int k_point, double x[k_point], double y[k_point], FILE *file)
             Y[i] = Y[i] + pow(x[j], i) * y[j];
         }
     }
-    for (i = 0; i <= n; i++)
+    for (i = 0; i <= poly_degree; i++)
     {
-        for (j = 0; j <= n; j++)
+        for (j = 0; j <= poly_degree; j++)
         {
             B[i][j] = X[i + j];
         }
     }
-    for (i = 0; i <= n; i++)
+    for (i = 0; i <= poly_degree; i++)
     {
-        B[i][n + 1] = Y[i];
+        B[i][poly_degree + 1] = Y[i];
     }
-    double A[n + 1];
-    // printMatrix(n + 1, n + 2, B);
-    gaussEliminationLS(n + 1, n + 2, B, A);
+    double A[poly_degree + 1];
+    // printMatrix(poly_degree + 1, poly_degree + 2, B);
+    gaussEliminationLS(poly_degree + 1, poly_degree + 2, B, A);
 
-    for (i = 0; i <= n; i++)
+    for (i = 0; i <= poly_degree; i++)
     {
-        printf("%lfx^%d\t+\t", A[i], i);
+        //printf("%lfx^%d\t+\t", A[i], i);
         fprintf(file, "%lf\t", A[i]);
     }
-    printf("...\n\n");
+    //printf("...\n\n");
     fprintf(file, "\n");
 }
 int main(int argc, char *argv[])
@@ -209,7 +207,7 @@ int main(int argc, char *argv[])
             x[k] = E_k[i][k][1];
             y[k] = E_k[i][k][0];
         }
-        printf("The polynomial fit band #%d:\n", i);
+        //printf("The polynomial fit band #%d:\n", i);
 
         fit(k_points[i], x, y, polynum);
     }
