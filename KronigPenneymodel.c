@@ -15,7 +15,7 @@ double e_const = 1.602e-19;
 double a = 8.90;
 double b = 8.0;
 double v0 = 1.5;
-double dE = 0.005;
+double dE = 0.0005;
 double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
@@ -84,12 +84,12 @@ void printMatrix(int m, int n, double matrix[m][n])
         printf("\n");
     }
 }
-void fit(int k_point, double x[k_point], double y[k_point])
+void fit(int k_point, double x[k_point], double y[k_point], FILE *file)
 {
     int i, j;
 
     // the degree of polynomial to be used:
-    int n = 3;
+    int n = 10;
     // an array of size 2*n+1 for storing N, Sig xi, Sig xi^2, ...., etc. which are the independent components of the normal matrix
     double X[2 * n + 1];
     for (i = 0; i <= 2 * n; i++)
@@ -124,14 +124,16 @@ void fit(int k_point, double x[k_point], double y[k_point])
         B[i][n + 1] = Y[i];
     }
     double A[n + 1];
-    printf("The polynomial fit is given by the equation:\n");
-    //printMatrix(n + 1, n + 2, B);
+    // printMatrix(n + 1, n + 2, B);
     gaussEliminationLS(n + 1, n + 2, B, A);
+
     for (i = 0; i <= n; i++)
     {
-        printf("%lfx^%d+", A[i], i);
+        printf("%lfx^%d\t+\t", A[i], i);
+        fprintf(file, "%lf\t", A[i]);
     }
-    printf("...\n");
+    printf("...\n\n");
+    fprintf(file, "\n");
 }
 int main(int argc, char *argv[])
 {
@@ -168,8 +170,10 @@ int main(int argc, char *argv[])
             E_k[band_i][k_points[band_i]][0] = E;
             E_k[band_i][k_points[band_i]][1] = acos(cos_K_E(a, b, v0, E)) / M_PI;
             k_points[band_i]++;
+            E_k[band_i][k_points[band_i]][0] = E;
+            E_k[band_i][k_points[band_i]][1] = -acos(cos_K_E(a, b, v0, E)) / M_PI;
+            k_points[band_i]++;
         }
-
     }
 
     // print to file bandstrc.dat
@@ -193,9 +197,10 @@ int main(int argc, char *argv[])
     {
         fprintf(gap, "%d\t%f\t%f\n", i, maxEs[i], minEs[i]);
     }
+    FILE *polynum;
+    polynum = fopen("polynum.dat", "w");
     for (int i = 1; i <= band_i; i++)
     {
-        printf("fiting");
 
         double x[k_points[i]];
         double y[k_points[i]];
@@ -204,8 +209,11 @@ int main(int argc, char *argv[])
             x[k] = E_k[i][k][1];
             y[k] = E_k[i][k][0];
         }
-        printf("fiting");
-        fit(k_points[i], x,y);
+        printf("The polynomial fit band #%d:\n", i);
+
+        fit(k_points[i], x, y, polynum);
     }
+    fclose(polynum);
+
     return 0;
 }
