@@ -20,7 +20,7 @@ double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
 int bandNumber = 5;
-int poly_degree= 6;
+int poly_degree= 8;
 
 double cos_K_E(double a, double b, double v0, double E)
 {
