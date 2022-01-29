@@ -1,9 +1,9 @@
 # [Kronig-Penney-model](https://en.wikipedia.org/wiki/Particle_in_a_one-dimensional_lattice)
 
 ![band strucure](band.png)
-![band strucure]("band 1.png")
-![band strucure]("band 2.png")
-![band strucure]("band 3.png")
+![band strucure](band1.png)
+![band strucure](band2.png)
+![band strucure](band3.png)
 
 
 
