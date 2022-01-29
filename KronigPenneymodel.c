@@ -12,10 +12,10 @@ double h_bar = 6.582119569e-16; //eV.s
 double m_e = 9.10938356e-31;    //e mass Kg;
 double e_const = 1.602e-19;
 */
-double a = 8.90;
-double b = 8.0;
-double v0 = 1.5;
-double dE = 0.0005;
+double a = 10.0;
+double b = 6.0;
+double v0 = 1.7;
+double dE = 0.00005;
 double h_bar = 1;
 double m_e = 1;
 double e_const = 1;
@@ -190,10 +190,10 @@ int main(int argc, char *argv[])
 
     FILE *gap;
     gap = fopen("gap.dat", "w");
-    fprintf(gap, "Band #\tE_max\tE_min\n");
+    //fprintf(gap, "E_max\tE_min\n");
     for (int i = 1; i <= band_i; i++)
     {
-        fprintf(gap, "%d\t%f\t%f\n", i, maxEs[i], minEs[i]);
+        fprintf(gap, "%f\t%f\n", maxEs[i], minEs[i]);
     }
     FILE *polynum;
     polynum = fopen("polynum.dat", "w");

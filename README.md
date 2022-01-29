@@ -1,6 +1,10 @@
 # [Kronig-Penney-model](https://en.wikipedia.org/wiki/Particle_in_a_one-dimensional_lattice)
 
 ![band strucure](band.png)
+![band strucure](band 1.png)
+![band strucure](band 2.png)
+![band strucure](band 3.png)
+
 
 
 ![Kronig-Penney](https://upload.wikimedia.org/wikipedia/commons/0/04/Periodic_square_potential_130707.png)
