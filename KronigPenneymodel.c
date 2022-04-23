@@ -12,9 +12,9 @@ double h_bar = 6.582119569e-16; //eV.s
 double m_e = 9.10938356e-31;    //e mass Kg;
 double e_const = 1.602e-19;
 */
-double a = 10.0;
-double b = 6.0;
-double v0 = 1.7;
+double a = 10;
+double b = 9;
+double v0 = 1;
 double dE = 0.00005;
 double h_bar = 1;
 double m_e = 1;
@@ -26,7 +26,7 @@ double cos_K_E(double a, double b, double v0, double E)
 {
     double alpha = sqrt(2 * m_e * fabs(E)) / h_bar;
     double beta = sqrt(2 * m_e * (v0 - fabs(E))) / h_bar;
-    double d = b - a;
+    double d = a - b;
     double cos_ka = cos(beta * b) * cosh(alpha * d) - (beta * beta - alpha * alpha) / (2 * alpha * beta) * sin(beta * b) * sinh(alpha * d);
     // printf("%f\n",cos_ka);
     return cos_ka;

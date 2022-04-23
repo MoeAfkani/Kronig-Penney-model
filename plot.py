@@ -24,8 +24,8 @@ def PolyNoms(x, coeffs):
     return y
 def Cos(x,n,coeff):
     A = (coeff[0] + coeff[1])/2
-    B = coeff[0] - coeff[1]
-    return A  + (-1)**(n) * B * math.cos(math.pi * x)
+    B = (coeff[0] - coeff[1])/2
+    return A  * B * math.cos(math.pi * x)
 
 
 for row in band:
@@ -100,5 +100,5 @@ plt.title('KronigPenney', fontsize=20)
 plt.xticks(np.arange(-1.0, +1.01, .5))
 #plt.yticks(np.arange(0.8, +1.7, .1))
 plt.legend()
-plt.savefig("band 3" ,dpi=600)
+plt.savefig("band3" ,dpi=600)
 # plt.show()
